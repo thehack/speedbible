@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+	<head>
+		<title><%= title %></title>
+		<meta charset="utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico">
+    <style>
+      html, body { margin: 0; padding: 0; border: 0; }
+			body{width:600px;margin:0 auto;font-family:Courier;text-align:center}
+			#o{font-size:40px;border:2px solid;width:21rem;display:inline-block;text-align:left}
+			table{margin:0px auto;}
+			#i{display:none;}
+			v{color:red}
+
+      #c { display: block; }
+			input{width: 40px;}
+    </style>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src='public/main.js'>
+		</script>
+		<script type="text/javascript" charset="utf-8">
+			var loadText = function() {
+				$.ajax('/'+$('#book').val()+'/' + $('#nums').val(),
+					{
+					method: 'GET',
+					dataType: 'JSON',
+					beforeSend: function(){
+						$('button').text("Loading")
+					},
+					success: function(data){
+					var passage = data.response.search.result.passages[0];
+						$('#i').html(passage.text)
+						$('button').html("Load Scripture")
+						p()
+					}
+				})};
+			// on document ready
+			$( function() {
+					p()
+			})
+		</script>
+
+	</head>
+	<body>
+		<p>
+
+
+		<table>
+			<tr>
+				<td>book</td>
+				<td>ref</td>
+			</tr>
+			<tr>
+				<td><input type="text" id="book" name="book" value="genesis">:</td>
+				<td><input type="text" id="nums" name="nums" value="1"></td>
+			</tr>
+		</table>
+	</p>
+		<canvas id="c"></canvas>
+		<script>
+			var a = document.getElementsByTagName('canvas')[0];
+			var b = document.body;
+      var d = function(e){ return function(){ e.parentNode.removeChild(e); }; }(a);
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      var AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+      var requestAnimationFrame =
+        window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(f){ setTimeout(f, 1000/30); };
+      // stretch canvas to screen size (once, will not onresize!)
+      a.style.width = (a.width = innerWidth) + 'px';
+      a.style.height = (a.height = innerHeight) + 'px';
+
+      var c = a.getContext('2d');
+		</script>
+	</body>
+</html>
