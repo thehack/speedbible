@@ -26,16 +26,20 @@ app.use(function(req, res, next){
 // **************** What is the correct way to do this? ****************************************
 var getScripture = function(options, callback) {
   var url = 'https://91DDd6iI5setSs3FoU7u7ZKiR4OIltI7HBCthKZ6:X@bibles.org/v2/passages.js?q[]='+options.book+'+'+options.nums+'&version=eng-CEV';
-  var req = https.request(url, function(res) {
+  var results = ""
+  https.get(url, function(res) {
 
       // prematurely sends chunk as whole
       res.on('data', function(chunk) {
-        callback(JSON.parse(chunk));
+        results += chunk
+        console.log("chunking...")
       })
-  });
-  req.end()
-  req.on('error', function(e) {
-    console.error(e);
+      res.on('end', function() {
+        callback(JSON.parse(results))
+      })
+      res.on('error', function(e){
+        console.error(e);
+      })
   })
 };
 
