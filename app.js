@@ -19,17 +19,12 @@ app.use(function(req, res, next){
   next();
 });
 
-// This gets the scripture from Bibles.org's API
-// Problem: It doesn't run before the GET request is complete, so it doesn't work until the second go.
-// the only way I could get the text variable available to the request was to make it global.
-// I realize this will not work if it's not ready soon enough and bleeds over to other requests.
-// **************** What is the correct way to do this? ****************************************
 var getScripture = function(options, callback) {
   var url = 'https://91DDd6iI5setSs3FoU7u7ZKiR4OIltI7HBCthKZ6:X@bibles.org/v2/passages.js?q[]='+options.book+'+'+options.nums+'&version=eng-CEV';
   var results = ""
   https.get(url, function(res) {
 
-      // prematurely sends chunk as whole
+      // a chunk may or not be a whole JSON record, so we can't process it until it is concatenated
       res.on('data', function(chunk) {
         results += chunk
         console.log("chunking...")
@@ -43,9 +38,6 @@ var getScripture = function(options, callback) {
   })
 };
 
-// An AJAX from index.ejs call will pull in scripture with local JSON request
-// The JSON will be decoded like so: JSON.parse(d).response.search.result.passages[0].text
-// The scripture will be displayed in a Spritz-like speed-reader.
 app.get('/', function(req, res) {
   res.render('index.ejs', {info: "variables can be called in here" } )
 })
