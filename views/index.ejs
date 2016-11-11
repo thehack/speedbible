@@ -28,7 +28,9 @@
 						$('button').text("Loading")
 					},
 					success: function(data){
-					var passage = data.response.search.result.passages[0];
+						var passage = data.response.search.result.passages[0];
+						// get rid of headings
+						passage.text = passage.text.replace(/\<h3.*\<\/h3\>/g, "")
 						$('#i').html(passage.text)
 						$('button').html("Load Scripture")
 						p()

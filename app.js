@@ -26,7 +26,7 @@ var getScripture = function(options, callback) {
 
       // a chunk may or not be a whole JSON record, so we can't process it until it is concatenated
       res.on('data', function(chunk) {
-        results += chunk
+        results += chunk;
         console.log("chunking...")
       })
       res.on('end', function() {
@@ -46,7 +46,7 @@ app.get('/', function(req, res) {
 app.get('/:book/:nums', function(req, res){
   getScripture({book: req.params.book, nums: req.params.nums}, function(d){
     res.type('json');
-    res.send(d)
+    res.send(d);
   })
 
 })

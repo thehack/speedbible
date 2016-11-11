@@ -33,7 +33,6 @@ $( function() {
     // return 2d array with word and focus point
     return str.trim().replace(/[0-9]/g, "").replace(/([.?!])([A-Z])/g, "$1 $2").split(/[\s\n]+/).reduce(function(words, str) {
       with(str) {
-        console.log(words.length)
         // focus point
         focus = (length-1)/2|0
 
