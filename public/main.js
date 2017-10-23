@@ -45,13 +45,14 @@ $( function() {
         t = 60000/500 // 500 wpm
 
         if (length > 6)
-          t+=t/4
+          t+=t/4;
 
         if (~indexOf(','))
-          t+=t/2
-
+          t+=t/2;
+        
+        // more time for punctuation
         if(/[\.!\?;]$/.test(str))
-          t+= t*1.5
+          t += t*1.1;
 
         return length >= 15 || length - focus > 7 ? words.concat(parse(hyphenate(str))) : words.concat([[str, focus, t]])
       }
