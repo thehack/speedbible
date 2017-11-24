@@ -1,5 +1,8 @@
 $( function() {
-  d()
+  d();
+
+  
+
   b.innerHTML += "<br><br><button id=button onclick=loadText()>Load Scripture</button><br><br><c id=o>.</c><br><br><div id=i>.</div>";
 
   var playing,index,input,loop,parse,focus,hyphenate;
@@ -42,17 +45,21 @@ $( function() {
             break
           }
 
-        t = 60000/500 // 500 wpm
+       t = parseInt(document.getElementById('demo').innerHTML);
+       console.log(t)
 
         if (length > 6)
           t+=t/4;
-
+          console.log('long ' + t)
         if (~indexOf(','))
           t+=t/2;
+        console.log('comma ' + t)
+
         
         // more time for punctuation
         if(/[\.!\?;]$/.test(str))
           t += t*1.1;
+        console.log('punc ' + t)
 
         return length >= 15 || length - focus > 7 ? words.concat(parse(hyphenate(str))) : words.concat([[str, focus, t]])
       }
@@ -68,9 +75,12 @@ $( function() {
 
   loop = function() {
     w = input[index++] || p()
-    o.innerHTML = Array(8 - w[1]).join('&nbsp;')+w[0].slice(0,w[1])+'<v>'+w[0][w[1]]+'</v>'+w[0].slice(w[1]+1)
+    if (w !== undefined) {
+      o.innerHTML = Array(8 - w[1]).join('&nbsp;')+w[0].slice(0,w[1])+'<v>'+w[0][w[1]]+'</v>'+w[0].slice(w[1]+1)
+    }
     playing && setTimeout(loop, w[2])
   }
 
+  p();
 
 })

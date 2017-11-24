@@ -6,59 +6,108 @@
         <link rel="shortcut icon" href="/favicon.ico">
     <style>
       html, body { margin: 0; padding: 0; border: 0; }
-			body{margin:0 auto;font-family:Courier;text-align:center}
-			#o{font-size:24px;font-size:10vw;border:2px solid;width:90%;display:inline-block;text-align:left}
-			table{margin:0px auto;}
-			#i{display:none;}
+	
+	body{margin:0 auto;font-family:Courier;text-align:center;}
+	
+	#o{font-size:24px;font-size:10vw;border:2px solid;width:90%;display:inline-block;text-align:left}
+	
+	#i{display:none;}
 			v{color:red}
 
-      #c { display: block; }
-			input{width: 40px;}
+    #c { display: block;
+    }
+
+	input{width: 10vw;}
+	#reference {
+		top:5vh;
+		left:5vh;
+	}
+	#slidecontainer {
+		position: absolute;
+		top: 0;
+		right: 5vw;
+	}
+
+	.slider {
+	    -webkit-appearance: none;
+	    width: 20vw;
+	    height: 25px;
+	    background: #d3d3d3;
+	    outline: none;
+	    opacity: 0.7;
+	}
+
+	.slider::-webkit-slider-thumb {
+	    -webkit-appearance: none;
+	    appearance: none;
+	    width: 25px;
+	    height: 25px;
+	    background: #4CAF50;
+	    cursor: pointer;
+	}
+
+	.slider::-moz-range-thumb {
+	    width: 25px;
+	    height: 25px;
+	    background: #4CAF50;
+	    cursor: pointer;
+	}
     </style>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src='public/main.js'>
 		</script>
 		<script type="text/javascript" charset="utf-8">
-			var loadText = function() {
-				$.ajax('/'+$('#book').val()+'/' + $('#nums').val(),
-					{
-					method: 'GET',
-					dataType: 'JSON',
-					beforeSend: function(){
-						$('button').text("Loading")
-					},
-					success: function(data){
-						var passage = data.response.search.result.passages[0];
-						// get rid of headings
-						passage.text = passage.text.replace(/\<h3.*\<\/h3\>/g, "")
-						$('#i').html(passage.text)
-						$('button').html("Load Scripture")
-						p()
-					}
-				})};
-			// on document ready
-			$( function() {
-					p()
-			})
+  var loadText = function() {
+        $.ajax('/'+$('#book').val()+'/' + $('#nums').val(),
+          {
+          method: 'GET',
+          dataType: 'JSON',
+          beforeSend: function(){
+            $('button').text("Loading")
+          },
+          success: function(data){
+            var passage = data.response.search.result.passages[0];
+            // get rid of headings
+            passage.text = passage.text.replace(/\<h3.*\<\/h3\>/g, "")
+            $('#i').html(passage.text)
+            $('button').html("Load Scripture")
+            p()
+          }
+        })};
+
+			      // on document ready
+      $( function() {
+
+       var slider = document.getElementById("myRange");
+       var output = document.getElementById("demo");
+       output.innerHTML = slider.value; // Display the default slider value
+      
+       slider.oninput = function() {
+       	console.log(this.value)
+       	output.innerHTML = this.value;}
+   
+    })
 		</script>
 
 	</head>
 	<body>
-		<p>
 
 
-		<table>
+		<table id="reference">
 			<tr>
-				<td>book</td>
-				<td>ref</td>
+				<td>BOOK</td>
+				<td>REF</td>
 			</tr>
+			<tr><td> </td><td></td> </tr>
 			<tr>
 				<td><input type="text" id="book" name="book" value="genesis">:</td>
 				<td><input type="text" id="nums" name="nums" value="1"></td>
 			</tr>
 		</table>
-	</p>
 		<canvas id="c"></canvas>
+  		<div id="slidecontainer">SPEED<div id="demo"></div>
+  			<input type="range" min="20" max="320" value="120" class="slider" id="myRange">
+		</div>
 		<script>
 			var a = document.getElementsByTagName('canvas')[0];
 			var b = document.body;
@@ -78,6 +127,8 @@
       a.style.height = (a.height = innerHeight) + 'px';
 
       var c = a.getContext('2d');
+
+
 		</script>
 	</body>
 </html>
