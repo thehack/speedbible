@@ -45,7 +45,7 @@ $( function() {
             break
           }
 
-       t = parseInt(document.getElementById('demo').innerHTML);
+       t = 60000/parseInt(document.getElementById('demo').innerHTML);
        console.log(t)
 
         if (length > 6)
