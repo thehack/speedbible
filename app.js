@@ -11,7 +11,7 @@ app.locals({
 });
 
 // activate server
-app.listen(process.env.PORT || 80);
+app.listen(process.env.PORT || 3000);
 
 // simple logger
 app.use(function(req, res, next){
