@@ -19,11 +19,25 @@ app.use(function(req, res, next){
   next();
 });
 
-var getScripture = function(options, callback) {
-  var url = 'https://91DDd6iI5setSs3FoU7u7ZKiR4OIltI7HBCthKZ6:X@bibles.org/v2/passages.js?q[]='+options.book+'+'+options.nums+'&version=eng-CEV';
-  var results = ""
-  https.get(url, function(res) {
+/* 
+The following works in the new api:
 
+curl --request GET --url https://api.scripture.api.bible/v1/bibles/06125adad2d5898a-01/passages/gen --header 'api-key: e214f4d5c3207dc1a1dd2ac840e1a307'
+
+*/
+var getScripture = function(options, callback) {
+//  var url = 'https://91DDd6iI5setSs3FoU7u7ZKiR4OIltI7HBCthKZ6:X@bibles.org/v2/passages.js?q[]='+options.book+'+'+options.nums+'&version=eng-CEV';
+  var results = ""
+  
+  const reqOptions = {
+    hostname: 'api.scripture.api.bible',
+    path: '/v1/bibles/06125adad2d5898a-01/search?query='+options.book+ '.'+ options.nums, 
+    headers: {
+        'api-key': 'e214f4d5c3207dc1a1dd2ac840e1a307'
+    }
+  }
+  https.get(reqOptions, function(res) {
+      console.log("getting url: " + reqOptions.hostname + reqOptions.path)
       // a chunk may or not be a whole JSON record, so we can't process it until it is concatenated
       res.on('data', function(chunk) {
         results += chunk;
@@ -31,6 +45,7 @@ var getScripture = function(options, callback) {
       })
       res.on('end', function() {
         callback(JSON.parse(results))
+      
       })
       res.on('error', function(e){
         console.error(e);
