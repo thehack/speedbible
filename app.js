@@ -11,7 +11,11 @@ app.locals({
 });
 
 // activate server
-app.listen(process.env.PORT || 3000);
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+app.listen(port);
 
 // simple logger
 app.use(function(req, res, next){
@@ -26,7 +30,9 @@ curl --request GET --url https://api.scripture.api.bible/v1/bibles/06125adad2d58
 
 */
 var getScripture = function(options, callback) {
+
 //  var url = 'https://91DDd6iI5setSs3FoU7u7ZKiR4OIltI7HBCthKZ6:X@bibles.org/v2/passages.js?q[]='+options.book+'+'+options.nums+'&version=eng-CEV';
+
   var results = ""
   
   const reqOptions = {
@@ -45,7 +51,7 @@ var getScripture = function(options, callback) {
       })
       res.on('end', function() {
         callback(JSON.parse(results))
-      
+
       })
       res.on('error', function(e){
         console.error(e);

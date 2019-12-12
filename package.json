@@ -24,7 +24,6 @@
     "follow-redirects": "~0.0.3"
   },
   "scripts": {
-    "start": "node ./app.js",
-    "deploy": "glcoud preview app deploy"
+    "start": "node app.js"
   }
 }
