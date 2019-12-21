@@ -37,7 +37,7 @@ var getScripture = function(options, callback) {
   
   const reqOptions = {
     hostname: 'api.scripture.api.bible',
-    path: '/v1/bibles/06125adad2d5898a-01/search?query='+options.book+ '.'+ options.nums, 
+    path: '/v1/bibles/555fef9a6cb31151/search?query='+options.book+ '.'+ options.nums, 
     headers: {
         'api-key': 'e214f4d5c3207dc1a1dd2ac840e1a307'
     }
